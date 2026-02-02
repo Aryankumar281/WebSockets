@@ -1,0 +1,19 @@
+{
+  "name": "websocketdemo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "dev": "node --watch server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ws": "^8.19.0"
+  },
+  "devDependencies": {
+    "@types/node": "^25.2.0",
+    "@types/ws": "^8.18.1"
+  }
+}
