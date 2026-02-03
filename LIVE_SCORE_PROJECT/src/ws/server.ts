@@ -4,7 +4,6 @@ import { Server } from "http";
 interface AliveWebSocket extends WebSocket {
   isAlive?: boolean;
 }
-
 function sendJson(socket: WebSocket, payload: any) {
   if (socket.readyState !== WebSocket.OPEN) return;
   socket.send(JSON.stringify(payload));
