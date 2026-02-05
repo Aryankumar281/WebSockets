@@ -1,17 +1,17 @@
 import { z } from 'zod';
 
 export const listCommentaryQuerySchema = z.object({
-  limit: z.coerce.number().positive().max(100).optional(),
+  limit: z.coerce.number().int().positive().max(100).optional(),
 });
 
 export const createCommentarySchema = z.object({
   minute: z.number().int().nonnegative(),
-  sequence: z.any(),
+  sequence: z.number().int(),
   period: z.string(),
-  eventType: z.any(),
-  actor: z.any(),
-  team: z.any(),
+  eventType: z.string(),
+  actor: z.string(),
+  team: z.string(),
   message: z.string(),
-  metadata: z.record(z.string(), z.any()).optional(),
+  metadata: z.record(z.string(), z.unknown()).optional(),
   tags: z.array(z.string()),
 });

@@ -8,7 +8,20 @@ const PORT = Number(process.env.PORT) || 8000;
 const HOST = process.env.HOST || "0.0.0.0";
 
 const app = express();
-app.set('trust proxy', true);
+
+// Configure trust proxy based on environment variable
+// Only set if TRUST_PROXY_HOPS is present and is a valid non-negative integer
+let trustProxyValue: number | boolean = false;
+if (process.env.TRUST_PROXY_HOPS !== undefined) {
+  const parsedValue = Number(process.env.TRUST_PROXY_HOPS);
+  if (!isNaN(parsedValue) && Number.isInteger(parsedValue) && parsedValue >= 0) {
+    trustProxyValue = parsedValue;
+  } else {
+    console.warn(`Invalid TRUST_PROXY_HOPS value: "${process.env.TRUST_PROXY_HOPS}". Must be a non-negative integer. Defaulting to false.`);
+  }
+}
+app.set('trust proxy', trustProxyValue);
+
 const server = http.createServer(app);
 // Use JSON middleware
 app.use(express.json());

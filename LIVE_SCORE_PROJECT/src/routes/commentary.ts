@@ -31,7 +31,12 @@ commentryRouter.get('/', async (req, res) => {
             .orderBy(desc(commentary.createdAt))
             .limit(limit);
 
-        return res.status(200).json(results);
+        const formattedResults = results.map(row => ({
+            ...row,
+            tags: row.tags ? JSON.parse(row.tags as string) : [],
+        }));
+
+        return res.status(200).json(formattedResults);
     } catch (error) {
         console.error('Error fetching commentary:', error);
         return res.status(500).json({ error: 'Internal server error' });
@@ -55,7 +60,10 @@ commentryRouter.post('/',async (req, res) => {
             tags: JSON.stringify(tags),
             ...rest,
         }).returning();
-        return  res.status(201).json(result);
+        return  res.status(201).json({
+            ...result,
+            tags: result.tags ? JSON.parse(result.tags as string) : [],
+        });
         
     } catch (error) {
         console.error('Error creating commentary:', error);
