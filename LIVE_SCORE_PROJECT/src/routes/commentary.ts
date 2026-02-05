@@ -60,6 +60,10 @@ commentryRouter.post('/',async (req, res) => {
             tags: JSON.stringify(tags),
             ...rest,
         }).returning();
+
+        if(res.app.locals.broadcastCommentary){
+            res.app.locals.broadcastCommentary(result.matchId,result);
+        }
         return  res.status(201).json({
             ...result,
             tags: result.tags ? JSON.parse(result.tags as string) : [],
